@@ -8,12 +8,20 @@ import { Provider } from 'react-redux';
 //생성된 store파일 가져오기
 import store from './redux/store';
 
+//persist로 추가된 import
+import { PersistGate } from 'redux-persist/integration/react';
+import { persistStore } from 'redux-persist';
+
+export let persistor = persistStore(store);
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     {/* App을 Provider로 감사써 사용해야함, 이 작업을 안해주면 내 프로젝트는 스토어가 뭔지 아예 모르는 똥멍청이임*/}
     <Provider store={store}>
-      <App />
+      <PersistGate loading={null} persistor={persistor}>
+        <App />
+      </PersistGate>
     </Provider>
   </React.StrictMode>
 );
